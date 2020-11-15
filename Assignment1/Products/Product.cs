@@ -2,38 +2,33 @@
 
 namespace Assignment1.Products
 {
-    public class Product
+    public record Product
     {
         [Name("productId")]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Name("name")]
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         [Name("description")]
-        public string Description { get; set; }
+        public string Description { get; init; }
 
         [Name("price")]
-        public decimal Price { get; set; }
+        public decimal Price { get; init; }
 
         [Name("category")]
-        public string Category { get; set; }
+        public string Category { get; init; }
 
         [Ignore]
         public Currency Currency { get; private set; } = Currency.USD;
 
         public Product ConvertToCurrency(Currency currency)
         {
-            return new Product
+            return this with
             {
-                Id = Id,
-                Name = Name,
-                Description = Description,
                 Price = Price / Currency.Rate * currency.Rate,
-                Category = Category,
-                Currency = currency
-            };
+                Category = Category
+            } ;
         }
-
     }
 }
